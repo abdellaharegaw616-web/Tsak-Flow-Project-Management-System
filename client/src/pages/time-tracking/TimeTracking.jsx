@@ -54,49 +54,11 @@ export default function TimeTracking() {
 
   const fetchTimeEntries = async () => {
     try {
-      // Mock data for demonstration
-      const mockTimeEntries = [
-        {
-          _id: 1,
-          task: 'Q4 Project Planning',
-          project: 'Marketing Campaign',
-          startTime: '2024-01-15T09:00:00',
-          endTime: '2024-01-15T11:30:00',
-          duration: 2.5,
-          date: '2024-01-15'
-        },
-        {
-          _id: 2,
-          task: 'Website Development',
-          project: 'Company Website',
-          startTime: '2024-01-15T13:00:00',
-          endTime: '2024-01-15T17:45:00',
-          duration: 4.75,
-          date: '2024-01-15'
-        },
-        {
-          _id: 3,
-          task: 'Client Meeting',
-          project: 'Project Review',
-          startTime: '2024-01-14T10:00:00',
-          endTime: '2024-01-14T11:30:00',
-          duration: 1.5,
-          date: '2024-01-14'
-        },
-        {
-          _id: 4,
-          task: 'Documentation Writing',
-          project: 'API Documentation',
-          startTime: '2024-01-13T14:00:00',
-          endTime: '2024-01-13T16:30:00',
-          duration: 2.5,
-          date: '2024-01-13'
-        }
-      ];
-      
-      setTimeEntries(mockTimeEntries);
+      const { data } = await api.get('/time-tracking');
+      setTimeEntries(data);
     } catch (error) {
-      toast.error('Failed to fetch time entries');
+      console.error('Failed to fetch time entries');
+      setTimeEntries([]);
     } finally {
       setLoading(false);
     }

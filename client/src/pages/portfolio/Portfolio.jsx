@@ -100,75 +100,8 @@ export default function Portfolio() {
     return new Date(date).toLocaleDateString();
   };
 
-  const mockPortfolioProjects = [
-    {
-      id: 1,
-      name: 'Digital Transformation Initiative',
-      description: 'Complete digital overhaul of all business processes',
-      status: 'in-progress',
-      priority: 'high',
-      health: 'healthy',
-      progress: 65,
-      budget: 250000,
-      spent: 162500,
-      team: 12,
-      startDate: '2024-01-01',
-      endDate: '2024-06-30',
-      roi: 145,
-      strategicAlignment: 95
-    },
-    {
-      id: 2,
-      name: 'Customer Experience Platform',
-      description: 'Build unified customer experience management system',
-      status: 'planning',
-      priority: 'critical',
-      health: 'at-risk',
-      progress: 15,
-      budget: 180000,
-      spent: 27000,
-      team: 8,
-      startDate: '2024-02-01',
-      endDate: '2024-08-31',
-      roi: 120,
-      strategicAlignment: 90
-    },
-    {
-      id: 3,
-      name: 'Supply Chain Optimization',
-      description: 'Optimize supply chain operations and reduce costs',
-      status: 'in-progress',
-      priority: 'medium',
-      health: 'healthy',
-      progress: 45,
-      budget: 150000,
-      spent: 67500,
-      team: 6,
-      startDate: '2024-01-15',
-      endDate: '2024-05-15',
-      roi: 85,
-      strategicAlignment: 80
-    },
-    {
-      id: 4,
-      name: 'Mobile Banking App',
-      description: 'Develop next-generation mobile banking application',
-      status: 'completed',
-      priority: 'high',
-      health: 'healthy',
-      progress: 100,
-      budget: 200000,
-      spent: 195000,
-      team: 10,
-      startDate: '2023-09-01',
-      endDate: '2024-01-15',
-      roi: 180,
-      strategicAlignment: 95
-    }
-  ];
-
-  // Prefer server projects when available, otherwise fall back to mock data
-  const sourceProjects = projects && projects.length ? projects : mockPortfolioProjects;
+  // Use only real projects from server
+  const sourceProjects = projects || [];
 
   const filteredProjects = sourceProjects.filter(project => {
     const matchesSearch = project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||

@@ -38,66 +38,12 @@ export default function Automations() {
 
   const fetchAutomations = async () => {
     try {
-      // Mock data for demonstration
-      const mockAutomations = [
-        {
-          _id: 1,
-          name: 'Daily Backup',
-          description: 'Automatically backup all project files at midnight',
-          status: 'active',
-          lastRun: '2024-01-14T23:00:00',
-          nextRun: '2024-01-15T23:00:00',
-          trigger: 'schedule',
-          actions: [
-            { name: 'Backup files', type: 'file_operation' },
-            { name: 'Send notification', type: 'notification' },
-            { name: 'Clean temp files', type: 'cleanup' }
-          ]
-        },
-        {
-          _id: 2,
-          name: 'Email Notifications',
-          description: 'Send daily summary emails to team members',
-          status: 'active',
-          lastRun: '2024-01-14T09:00:00',
-          nextRun: '2024-01-15T09:00:00',
-          trigger: 'schedule',
-          actions: [
-            { name: 'Send summary email', type: 'email' },
-            { name: 'Generate reports', type: 'report_generation' }
-          ]
-        },
-        {
-          _id: 3,
-          name: 'Project Status Update',
-          description: 'Update project status on project completion',
-          status: 'paused',
-          lastRun: '2024-01-10T14:30:00',
-          nextRun: null,
-          trigger: 'webhook',
-          actions: [
-            { name: 'Update project status', type: 'api_call' },
-            { name: 'Send notification', type: 'notification' }
-          ]
-        },
-        {
-          _id: 4,
-          name: 'Database Cleanup',
-          description: 'Clean up old database records weekly',
-          status: 'error',
-          lastRun: '2024-01-08T02:00:00',
-          nextRun: '2024-01-15T02:00:00',
-          trigger: 'schedule',
-          actions: [
-            { name: 'Delete old records', type: 'database_operation' },
-            { name: 'Optimize database', type: 'maintenance' }
-          ]
-        }
-      ];
-      
-      setAutomations(mockAutomations);
+      // Automations will be fetched from real API endpoints
+      // For now, initialize with empty array
+      setAutomations([]);
     } catch (error) {
-      toast.error('Failed to fetch automations');
+      console.error('Failed to fetch automations');
+      setAutomations([]);
     } finally {
       setLoading(false);
     }

@@ -49,30 +49,8 @@ export default function Messages() {
       const { data } = await api.get('/messages/conversations');
       setConversations(data);
     } catch (error) {
-      // Mock data for demo
-      setConversations([
-        {
-          _id: '1',
-          participant: { name: 'John Smith', role: 'manager', online: true },
-          lastMessage: 'Can you review the PR?',
-          lastMessageTime: new Date(),
-          unread: 2
-        },
-        {
-          _id: '2',
-          participant: { name: 'Sarah Johnson', role: 'developer', online: false },
-          lastMessage: 'The dashboard is ready',
-          lastMessageTime: new Date(Date.now() - 3600000),
-          unread: 0
-        },
-        {
-          _id: '3',
-          participant: { name: 'Mike Chen', role: 'frontend', online: true },
-          lastMessage: 'I need help with the API',
-          lastMessageTime: new Date(Date.now() - 7200000),
-          unread: 1
-        }
-      ]);
+      console.error('Failed to fetch conversations');
+      setConversations([]);
     } finally {
       setLoading(false);
     }
@@ -83,30 +61,8 @@ export default function Messages() {
       const { data } = await api.get(`/messages/${conversationId}`);
       setMessages(data);
     } catch (error) {
-      // Mock messages
-      setMessages([
-        {
-          _id: '1',
-          sender: { _id: 'user1', name: 'John Smith' },
-          text: 'Hey! How are you?',
-          createdAt: new Date(Date.now() - 3600000),
-          read: true
-        },
-        {
-          _id: '2',
-          sender: { _id: user._id, name: user.name },
-          text: "I'm good, thanks! Working on the new feature.",
-          createdAt: new Date(Date.now() - 3000000),
-          read: true
-        },
-        {
-          _id: '3',
-          sender: { _id: 'user1', name: 'John Smith' },
-          text: 'Can you review the PR?',
-          createdAt: new Date(Date.now() - 1800000),
-          read: false
-        }
-      ]);
+      console.error('Failed to fetch messages');
+      setMessages([]);
     }
   };
 

@@ -41,50 +41,12 @@ export default function Meetings() {
 
   const fetchMeetings = async () => {
     try {
-      // Mock data for demonstration
-      const mockMeetings = [
-        {
-          _id: 1,
-          title: 'Team Standup Meeting',
-          description: 'Daily team sync to discuss project progress',
-          status: 'scheduled',
-          startTime: '2024-01-15T09:00:00',
-          endTime: '2024-01-15T09:30:00',
-          participants: [
-            { name: 'John Doe', email: 'john@example.com' },
-            { name: 'Jane Smith', email: 'jane@example.com' },
-            { name: 'Bob Johnson', email: 'bob@example.com' }
-          ]
-        },
-        {
-          _id: 2,
-          title: 'Project Review Meeting',
-          description: 'Review Q4 project deliverables and milestones',
-          status: 'ongoing',
-          startTime: '2024-01-15T14:00:00',
-          endTime: '2024-01-15T15:30:00',
-          participants: [
-            { name: 'Alice Brown', email: 'alice@example.com' },
-            { name: 'Charlie Wilson', email: 'charlie@example.com' }
-          ]
-        },
-        {
-          _id: 3,
-          title: 'Client Presentation',
-          description: 'Present final project results to stakeholders',
-          status: 'completed',
-          startTime: '2024-01-14T10:00:00',
-          endTime: '2024-01-14T11:00:00',
-          participants: [
-            { name: 'David Lee', email: 'david@example.com' },
-            { name: 'Emma Davis', email: 'emma@example.com' }
-          ]
-        }
-      ];
-      
-      setMeetings(mockMeetings);
+      // Meetings will be fetched from real API endpoints
+      // For now, initialize with empty array
+      setMeetings([]);
     } catch (error) {
-      toast.error('Failed to fetch meetings');
+      console.error('Failed to fetch meetings');
+      setMeetings([]);
     } finally {
       setLoading(false);
     }

@@ -209,85 +209,16 @@ export default function Finance() {
 
   const fetchFinanceData = async () => {
     try {
-      // Mock data for demonstration
-      const mockTransactions = [
-        {
-          _id: 1,
-          date: '2024-01-15',
-          description: 'Project Development Tools',
-          amount: 299.99,
-          type: 'expense',
-          category: 'Software'
-        },
-        {
-          _id: 2,
-          date: '2024-01-14',
-          description: 'Office Supplies',
-          amount: 150.00,
-          type: 'expense',
-          category: 'Office'
-        },
-        {
-          _id: 3,
-          date: '2024-01-13',
-          description: 'Client Payment',
-          amount: 2500.00,
-          type: 'income',
-          category: 'Services'
-        }
-      ];
-
-      const mockBudgets = [
-        {
-          _id: 1,
-          name: 'Q4 Marketing Budget',
-          total: 5000.00,
-          spent: 3200.00,
-          remaining: 1800.00,
-          category: 'Marketing'
-        },
-        {
-          _id: 2,
-          name: 'Office Operations Budget',
-          total: 1000.00,
-          spent: 750.00,
-          remaining: 250.00,
-          category: 'Operations'
-        }
-      ];
-
-      const mockInvoices = [
-        {
-          _id: 1,
-          number: 'INV-2024-001',
-          client: { name: 'Acme Corp', email: 'billing@acme.com' },
-          amount: 2500.00,
-          dueDate: '2024-02-15',
-          status: 'paid',
-          items: [
-            { name: 'Website Development', quantity: 40, rate: 75 },
-            { name: 'SEO Services', quantity: 20, rate: 50 }
-          ]
-        },
-        {
-          _id: 2,
-          number: 'INV-2024-002',
-          client: { name: 'Tech Solutions', email: 'accounts@techsolutions.com' },
-          amount: 1800.00,
-          dueDate: '2024-01-31',
-          status: 'pending',
-          items: [
-            { name: 'Cloud Hosting', quantity: 12, rate: 25 },
-            { name: 'Support Services', quantity: 48, rate: 50 }
-          ]
-        }
-      ];
-      
-      setTransactions(mockTransactions);
-      setBudgets(mockBudgets);
-      setInvoices(mockInvoices);
+      // Finance data will be fetched from real API endpoints
+      // For now, initialize with empty arrays
+      setTransactions([]);
+      setBudgets([]);
+      setInvoices([]);
     } catch (error) {
-      toast.error('Failed to fetch finance data');
+      console.error('Failed to fetch finance data');
+      setTransactions([]);
+      setBudgets([]);
+      setInvoices([]);
     } finally {
       setLoading(false);
     }

@@ -38,49 +38,12 @@ export default function Reports() {
 
   const fetchReports = async () => {
     try {
-      // Mock data for demonstration
-      const mockReports = [
-        {
-          _id: 1,
-          title: 'Q4 Project Performance Report',
-          type: 'overview',
-          date: '2024-01-15',
-          data: {
-            totalProjects: 12,
-            completedProjects: 8,
-            averageCompletionTime: '45 days',
-            budgetUtilization: '85%'
-          }
-        },
-        {
-          _id: 2,
-          title: 'Team Productivity Analysis',
-          type: 'team',
-          date: '2024-01-15',
-          data: {
-            totalTeamMembers: 8,
-            activeMembers: 6,
-            averageTasksPerMember: '12.5',
-            topPerformer: 'John Doe'
-          }
-        },
-        {
-          _id: 3,
-          title: 'Financial Summary',
-          type: 'finance',
-          date: '2024-01-15',
-          data: {
-            totalRevenue: '$125,000',
-            totalExpenses: '$45,000',
-            netProfit: '$80,000',
-            profitMargin: '64%'
-          }
-        }
-      ];
-      
-      setReports(mockReports);
+      // Reports will be generated from real project/task data
+      // For now, return empty array
+      setReports([]);
     } catch (error) {
-      toast.error('Failed to fetch reports');
+      console.error('Failed to fetch reports');
+      setReports([]);
     } finally {
       setLoading(false);
     }

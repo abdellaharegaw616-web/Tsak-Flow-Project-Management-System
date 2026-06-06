@@ -44,85 +44,17 @@ export default function ResourcePlanning() {
 
   const fetchResourceData = async () => {
     try {
-      // Mock data for demonstration
-      const mockResources = [
-        {
-          _id: 1,
-          name: 'Design Team',
-          type: 'human',
-          capacity: 40,
-          allocated: 32,
-          available: 8,
-          skills: ['UI/UX Design', 'Graphic Design', 'Prototyping'],
-          utilization: 80
-        },
-        {
-          _id: 2,
-          name: 'Development Team',
-          type: 'human',
-          capacity: 35,
-          allocated: 28,
-          available: 7,
-          skills: ['Frontend', 'Backend', 'Database', 'DevOps'],
-          utilization: 80
-        },
-        {
-          _id: 3,
-          name: 'Marketing Team',
-          type: 'human',
-          capacity: 25,
-          allocated: 20,
-          available: 5,
-          skills: ['Content Marketing', 'Social Media', 'SEO', 'Analytics'],
-          utilization: 80
-        },
-        {
-          _id: 4,
-          name: 'Cloud Infrastructure',
-          type: 'infrastructure',
-          capacity: 100,
-          allocated: 75,
-          available: 25,
-          skills: ['AWS', 'Azure', 'Security', 'Monitoring'],
-          utilization: 75
-        }
-      ];
-
-      const mockAllocations = [
-        {
-          _id: 1,
-          resourceId: 1,
-          projectName: 'Website Redesign',
-          allocatedHours: 160,
-          startDate: '2024-01-01',
-          endDate: '2024-02-15',
-          utilization: 100
-        },
-        {
-          _id: 2,
-          resourceId: 2,
-          projectName: 'Mobile App Development',
-          allocatedHours: 140,
-          startDate: '2024-01-10',
-          endDate: '2024-03-31',
-          utilization: 85
-        },
-        {
-          _id: 3,
-          resourceId: 3,
-          projectName: 'Marketing Campaign',
-          allocatedHours: 80,
-          startDate: '2024-01-05',
-          endDate: '2024-01-31',
-          utilization: 90
-        }
-      ];
+      // Fetch real resources from API
+      const { data: resourcesData } = await api.get('/resources');
+      setResources(resourcesData || []);
       
-      // Only seed mock data if there are no resources yet (prevents overwriting user-added resources)
-      if (!resources || resources.length === 0) setResources(mockResources);
-      if (!allocations || allocations.length === 0) setAllocations(mockAllocations);
+      // Fetch real allocations from API
+      const { data: allocationsData } = await api.get('/allocations');
+      setAllocations(allocationsData || []);
     } catch (error) {
-      toast.error('Failed to fetch resource data');
+      console.error('Failed to fetch resource data');
+      setResources([]);
+      setAllocations([]);
     } finally {
       setLoading(false);
     }
@@ -159,109 +91,7 @@ export default function ResourcePlanning() {
     return new Date(date).toLocaleDateString();
   };
 
-  const mockResources = [
-    {
-      id: 1,
-      name: 'John Smith',
-      role: 'Senior Developer',
-      department: 'Engineering',
-      skills: ['JavaScript', 'React', 'Node.js', 'Python'],
-      availability: 'available',
-      utilization: 75,
-      capacity: 40,
-      allocated: 30,
-      hourlyRate: 150,
-      projects: ['Website Redesign', 'Mobile App'],
-      performance: 92,
-      skillLevel: 'senior'
-    },
-    {
-      id: 2,
-      name: 'Sarah Johnson',
-      role: 'Project Manager',
-      department: 'Management',
-      skills: ['Agile', 'Scrum', 'Planning', 'Communication'],
-      availability: 'busy',
-      utilization: 85,
-      capacity: 40,
-      allocated: 34,
-      hourlyRate: 120,
-      projects: ['Digital Transformation', 'Supply Chain'],
-      performance: 88,
-      skillLevel: 'senior'
-    },
-    {
-      id: 3,
-      name: 'Mike Chen',
-      role: 'UI/UX Designer',
-      department: 'Design',
-      skills: ['Figma', 'Sketch', 'Adobe XD', 'Prototyping'],
-      availability: 'available',
-      utilization: 60,
-      capacity: 40,
-      allocated: 24,
-      hourlyRate: 100,
-      projects: ['Mobile App', 'Customer Platform'],
-      performance: 95,
-      skillLevel: 'intermediate'
-    },
-    {
-      id: 4,
-      name: 'Emily Davis',
-      role: 'Data Analyst',
-      department: 'Analytics',
-      skills: ['SQL', 'Python', 'Tableau', 'Power BI'],
-      availability: 'overloaded',
-      utilization: 95,
-      capacity: 40,
-      allocated: 38,
-      hourlyRate: 110,
-      projects: ['Analytics Dashboard', 'Data Migration'],
-      performance: 90,
-      skillLevel: 'senior'
-    }
-  ];
-
-  const mockAllocations = [
-    {
-      id: 1,
-      resource: 'John Smith',
-      project: 'Website Redesign',
-      role: 'Lead Developer',
-      allocation: 20,
-      startDate: '2024-01-01',
-      endDate: '2024-03-31',
-      status: 'active',
-      budget: 24000,
-      spent: 12000
-    },
-    {
-      id: 2,
-      resource: 'Sarah Johnson',
-      project: 'Digital Transformation',
-      role: 'Project Manager',
-      allocation: 25,
-      startDate: '2024-01-15',
-      endDate: '2024-06-30',
-      status: 'active',
-      budget: 36000,
-      spent: 15000
-    },
-    {
-      id: 3,
-      resource: 'Mike Chen',
-      project: 'Mobile App',
-      role: 'UI Designer',
-      allocation: 15,
-      startDate: '2024-02-01',
-      endDate: '2024-04-30',
-      status: 'planned',
-      budget: 18000,
-      spent: 0
-    }
-  ];
-
-  const sourceResources = resources && resources.length ? resources : mockResources;
+  const sourceResources = resources || [];
 
   const resourceStats = {
     totalResources: sourceResources.length,

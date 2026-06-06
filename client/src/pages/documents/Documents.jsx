@@ -42,62 +42,10 @@ export default function Documents() {
 
   const fetchDocuments = async () => {
     try {
-      // Mock data for demonstration
-      const mockDocuments = [
-        {
-          _id: 1,
-          name: 'Q4 Project Report.pdf',
-          type: 'pdf',
-          size: 2048576,
-          updatedAt: '2024-01-15T10:30:00',
-          updatedBy: { name: 'John Doe', email: 'john@example.com' }
-        },
-        {
-          _id: 2,
-          name: 'Marketing Strategy.docx',
-          type: 'doc',
-          size: 524288,
-          updatedAt: '2024-01-14T15:45:00',
-          updatedBy: { name: 'Jane Smith', email: 'jane@example.com' }
-        },
-        {
-          _id: 3,
-          name: 'Budget Analysis.xlsx',
-          type: 'xlsx',
-          size: 1048576,
-          updatedAt: '2024-01-13T09:20:00',
-          updatedBy: { name: 'Bob Johnson', email: 'bob@example.com' }
-        },
-        {
-          _id: 4,
-          name: 'Presentation.pptx',
-          type: 'pptx',
-          size: 2097152,
-          updatedAt: '2024-01-12T14:15:00',
-          updatedBy: { name: 'Alice Brown', email: 'alice@example.com' }
-        }
-      ];
-      
-      const mockFolders = [
-        {
-          _id: 1,
-          name: 'Projects',
-          count: 12
-        },
-        {
-          _id: 2,
-          name: 'Reports',
-          count: 8
-        },
-        {
-          _id: 3,
-          name: 'Templates',
-          count: 5
-        }
-      ];
-      
-      setDocuments(mockDocuments);
-      setFolders(mockFolders);
+      // Documents will be fetched from real API endpoints
+      // For now, initialize with empty arrays
+      setDocuments([]);
+      setFolders([]);
     } catch (error) {
       toast.error('Failed to fetch documents');
     } finally {

@@ -9,7 +9,8 @@ import {
   Users, 
   Edit,
   Trash2,
-  Eye
+  Eye,
+  FolderKanban
 } from 'lucide-react';
 import ThreeDotMenu from '../../components/common/ThreeDotMenu';
 import CreateProjectModal from '../../components/projects/CreateProjectModal';
@@ -29,87 +30,11 @@ export default function Projects() {
 
   const fetchProjects = async () => {
     try {
-      // Mock data for demonstration
-      const mockProjects = [
-        {
-          _id: 1,
-          name: 'Website Redesign',
-          description: 'Complete overhaul of company website with modern design principles',
-          status: 'in-progress',
-          progress: 65,
-          startDate: '2024-01-01',
-          endDate: '2024-02-15',
-          team: [
-            { name: 'John Doe', role: 'Developer', avatar: 'https://picsum.photos/seed/developer/1.jpg' },
-            { name: 'Jane Smith', role: 'Designer', avatar: 'https://picsum.photos/seed/developer/2.jpg' },
-            { name: 'Bob Johnson', role: 'Project Manager', avatar: 'https://picsum.photos/seed/developer/3.jpg' }
-          ],
-          budget: 25000,
-          spent: 16250,
-          client: { name: 'Acme Corp', email: 'billing@acme.com' },
-          tags: ['web', 'design', 'frontend'],
-          priority: 'high'
-        },
-        {
-          _id: 2,
-          name: 'Mobile App Development',
-          description: 'Native iOS and Android app for project management',
-          status: 'planning',
-          progress: 25,
-          startDate: '2024-01-10',
-          endDate: '2024-03-31',
-          team: [
-            { name: 'Alice Brown', role: 'Mobile Developer', avatar: 'https://picsum.photos/seed/developer/4.jpg' },
-            { name: 'Charlie Wilson', role: 'Backend Developer', avatar: 'https://picsum.photos/seed/developer/5.jpg' }
-          ],
-          budget: 45000,
-          spent: 11250,
-          client: { name: 'Tech Solutions', email: 'projects@techsolutions.com' },
-          tags: ['mobile', 'ios', 'android', 'react-native'],
-          priority: 'medium'
-        },
-        {
-          _id: 3,
-          name: 'Marketing Campaign',
-          description: 'Q4 digital marketing campaign across all channels',
-          status: 'active',
-          progress: 80,
-          startDate: '2024-01-05',
-          endDate: '2024-01-31',
-          team: [
-            { name: 'David Lee', role: 'Marketing Manager', avatar: 'https://picsum.photos/seed/developer/6.jpg' },
-            { name: 'Emma Davis', role: 'Content Creator', avatar: 'https://picsum.photos/seed/developer/7.jpg' },
-            { name: 'Frank Miller', role: 'Social Media Manager', avatar: 'https://picsum.photos/seed/developer/8.jpg' }
-          ],
-          budget: 30000,
-          spent: 24000,
-          client: { name: 'Global Brands', email: 'marketing@globalbrands.com' },
-          tags: ['marketing', 'social', 'content'],
-          priority: 'high'
-        },
-        {
-          _id: 4,
-          name: 'Database Migration',
-          description: 'Migrate legacy database to modern cloud infrastructure',
-          status: 'completed',
-          progress: 100,
-          startDate: '2023-12-01',
-          endDate: '2023-12-15',
-          team: [
-            { name: 'Grace Chen', role: 'Database Administrator', avatar: 'https://picsum.photos/seed/developer/9.jpg' },
-            { name: 'Henry Zhang', role: 'DevOps Engineer', avatar: 'https://picsum.photos/seed/developer/10.jpg' }
-          ],
-          budget: 15000,
-          spent: 14500,
-          client: { name: 'Internal IT', email: 'it@internal.com' },
-          tags: ['database', 'migration', 'cloud'],
-          priority: 'medium'
-        }
-      ];
-      
-      setProjects(mockProjects);
+      const { data } = await api.get('/projects');
+      setProjects(data);
     } catch (error) {
-      toast.error('Failed to fetch projects');
+      console.error('Failed to fetch projects');
+      setProjects([]);
     } finally {
       setLoading(false);
     }
