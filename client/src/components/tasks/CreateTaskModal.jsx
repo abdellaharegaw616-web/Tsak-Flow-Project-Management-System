@@ -124,7 +124,7 @@ export default function CreateTaskModal({ isOpen, onClose, onSuccess, projectId 
               >
                 <option value="">Select project</option>
                 {projects.map(p => (
-                  <option key={p._id} value={p._id}>{p.title}</option>
+                  <option key={p._id} value={p._id}>{p.title || p.name}</option>
                 ))}
               </select>
             </div>
