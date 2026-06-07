@@ -25,6 +25,8 @@ export default function TimeTracking() {
   const [currentTask, setCurrentTask] = useState('');
   const [loading, setLoading] = useState(true);
   const [view, setView] = useState('today'); // today, week, month
+  const [editingEntry, setEditingEntry] = useState(null);
+  const [editForm, setEditForm] = useState({ task: '', duration: 0, date: '' });
   const { api } = useAuth();
 
   useEffect(() => {
@@ -87,6 +89,39 @@ export default function TimeTracking() {
       setCurrentTime(0);
     } catch (error) {
       toast.error('Failed to save time entry');
+    }
+  };
+
+  const handleEdit = (entry) => {
+    setEditingEntry(entry);
+    setEditForm({
+      task: entry.task,
+      duration: entry.duration,
+      date: new Date(entry.date).toISOString().slice(0, 16)
+    });
+  };
+
+  const handleUpdateEntry = async () => {
+    try {
+      await api.put(`/time-tracking/${editingEntry._id}`, editForm);
+      toast.success('Time entry updated');
+      setEditingEntry(null);
+      setEditForm({ task: '', duration: 0, date: '' });
+      fetchTimeEntries();
+    } catch (error) {
+      toast.error('Failed to update time entry');
+    }
+  };
+
+  const handleDelete = async (entryId) => {
+    if (window.confirm('Are you sure you want to delete this time entry?')) {
+      try {
+        await api.delete(`/time-tracking/${entryId}`);
+        toast.success('Time entry deleted');
+        fetchTimeEntries();
+      } catch (error) {
+        toast.error('Failed to delete time entry');
+      }
     }
   };
 
@@ -267,10 +302,16 @@ export default function TimeTracking() {
                 <span className="text-lg font-mono text-gray-900">
                   {formatTime(entry.duration)}
                 </span>
-                <button className="p-2 rounded hover:bg-gray-100">
+                <button 
+                  onClick={() => handleEdit(entry)}
+                  className="p-2 rounded hover:bg-gray-100"
+                >
                   <Edit className="h-4 w-4 text-gray-500" />
                 </button>
-                <button className="p-2 rounded hover:bg-gray-100">
+                <button 
+                  onClick={() => handleDelete(entry._id)}
+                  className="p-2 rounded hover:bg-gray-100"
+                >
                   <Trash2 className="h-4 w-4 text-gray-500" />
                 </button>
               </div>
@@ -286,6 +327,65 @@ export default function TimeTracking() {
           )}
         </div>
       </div>
+
+      {/* Edit Modal */}
+      {editingEntry && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-lg border border-gray-200 w-full max-w-md mx-4">
+            <div className="p-6 border-b border-gray-200">
+              <h3 className="text-lg font-semibold text-gray-900">Edit Time Entry</h3>
+            </div>
+            <div className="p-6">
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Task</label>
+                  <input
+                    type="text"
+                    value={editForm.task}
+                    onChange={(e) => setEditForm({ ...editForm, task: e.target.value })}
+                    className="input"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Duration (seconds)</label>
+                  <input
+                    type="number"
+                    value={editForm.duration}
+                    onChange={(e) => setEditForm({ ...editForm, duration: parseInt(e.target.value) || 0 })}
+                    className="input"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Date</label>
+                  <input
+                    type="datetime-local"
+                    value={editForm.date}
+                    onChange={(e) => setEditForm({ ...editForm, date: e.target.value })}
+                    className="input"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="p-6 border-t border-gray-200 flex justify-end gap-3">
+              <button
+                onClick={() => {
+                  setEditingEntry(null);
+                  setEditForm({ task: '', duration: 0, date: '' });
+                }}
+                className="btn-outline"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleUpdateEntry}
+                className="btn-primary"
+              >
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
