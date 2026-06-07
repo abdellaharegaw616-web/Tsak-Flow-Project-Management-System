@@ -178,6 +178,26 @@ export default function Finance() {
     toast.success('Invoice downloaded');
   };
 
+  const handleEditInvoice = (invoice) => {
+    setNewInvoice({
+      number: invoice.number,
+      clientName: typeof invoice.client === 'string' ? invoice.client : invoice.client?.name || '',
+      clientEmail: typeof invoice.client === 'string' ? '' : invoice.client?.email || '',
+      amount: invoice.amount,
+      dueDate: invoice.dueDate,
+      status: invoice.status,
+    });
+    setSelectedInvoice(invoice);
+    setIsInvoiceModalOpen(true);
+  };
+
+  const handleDeleteInvoice = (invoiceId) => {
+    if (window.confirm('Are you sure you want to delete this invoice?')) {
+      setInvoices((prev) => prev.filter((invoice) => invoice.id !== invoiceId));
+      toast.success('Invoice deleted');
+    }
+  };
+
   const exportTransactions = () => {
     const headers = ['Date', 'Description', 'Category', 'Type', 'Amount'];
     const rows = transactions.map((transaction) => [
@@ -725,10 +745,17 @@ export default function Finance() {
                         </button>
                         <button
                           type="button"
-                          onClick={() => toast('More actions coming soon')}
+                          onClick={() => handleEditInvoice(invoice)}
                           className="p-1 rounded hover:bg-gray-100"
                         >
-                          <MoreVertical className="h-4 w-4 text-gray-500" />
+                          <Edit className="h-4 w-4 text-gray-500" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteInvoice(invoice.id)}
+                          className="p-1 rounded hover:bg-red-100"
+                        >
+                          <Trash2 className="h-4 w-4 text-red-500" />
                         </button>
                       </div>
                     </td>
