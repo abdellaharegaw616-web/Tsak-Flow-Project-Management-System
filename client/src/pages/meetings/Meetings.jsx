@@ -26,6 +26,13 @@ export default function Meetings() {
   const [view, setView] = useState('list'); // list, calendar
   const [searchTerm, setSearchTerm] = useState('');
   const [showNewMeetingForm, setShowNewMeetingForm] = useState(false);
+  const [meetingForm, setMeetingForm] = useState({
+    title: '',
+    description: '',
+    startTime: '',
+    endTime: '',
+    participants: ''
+  });
   const { api } = useAuth();
   const location = useLocation();
 
@@ -71,8 +78,45 @@ export default function Meetings() {
   };
 
   const handleNewMeeting = () => {
+    setMeetingForm({
+      title: '',
+      description: '',
+      startTime: '',
+      endTime: '',
+      participants: ''
+    });
     setShowNewMeetingForm(true);
-    toast.success('Opening new meeting form...');
+  };
+
+  const handleScheduleMeeting = () => {
+    // Validation
+    if (!meetingForm.title.trim()) {
+      toast.error('Please enter a meeting title');
+      return;
+    }
+    if (!meetingForm.startTime) {
+      toast.error('Please select a start time');
+      return;
+    }
+    if (!meetingForm.endTime) {
+      toast.error('Please select an end time');
+      return;
+    }
+    if (new Date(meetingForm.endTime) <= new Date(meetingForm.startTime)) {
+      toast.error('End time must be after start time');
+      return;
+    }
+
+    // Here you would normally send the data to the API
+    toast.success('Meeting scheduled successfully!');
+    setShowNewMeetingForm(false);
+    setMeetingForm({
+      title: '',
+      description: '',
+      startTime: '',
+      endTime: '',
+      participants: ''
+    });
   };
 
   const filteredMeetings = meetings.filter(meeting =>
@@ -224,6 +268,8 @@ export default function Meetings() {
                     type="text"
                     placeholder="Enter meeting title"
                     className="input"
+                    value={meetingForm.title}
+                    onChange={(e) => setMeetingForm({ ...meetingForm, title: e.target.value })}
                   />
                 </div>
                 <div>
@@ -232,21 +278,27 @@ export default function Meetings() {
                     placeholder="Enter meeting description"
                     rows={3}
                     className="input"
+                    value={meetingForm.description}
+                    onChange={(e) => setMeetingForm({ ...meetingForm, description: e.target.value })}
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Start Time</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Start Time *</label>
                     <input
                       type="datetime-local"
                       className="input"
+                      value={meetingForm.startTime}
+                      onChange={(e) => setMeetingForm({ ...meetingForm, startTime: e.target.value })}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">End Time</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">End Time *</label>
                     <input
                       type="datetime-local"
                       className="input"
+                      value={meetingForm.endTime}
+                      onChange={(e) => setMeetingForm({ ...meetingForm, endTime: e.target.value })}
                     />
                   </div>
                 </div>
@@ -256,6 +308,8 @@ export default function Meetings() {
                     type="text"
                     placeholder="Add participant emails (comma separated)"
                     className="input"
+                    value={meetingForm.participants}
+                    onChange={(e) => setMeetingForm({ ...meetingForm, participants: e.target.value })}
                   />
                 </div>
               </div>
@@ -268,10 +322,7 @@ export default function Meetings() {
                 Cancel
               </button>
               <button
-                onClick={() => {
-                  toast.success('Meeting scheduled successfully!');
-                  setShowNewMeetingForm(false);
-                }}
+                onClick={handleScheduleMeeting}
                 className="btn-primary"
               >
                 Schedule Meeting
