@@ -31,6 +31,11 @@ export default function ResourcePlanning() {
   const [loading, setLoading] = useState(true);
   const [view, setView] = useState('overview'); // overview, resources, allocations, timeline
   const [timeRange, setTimeRange] = useState('month'); // week, month, quarter, year
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showFilterDropdown, setShowFilterDropdown] = useState(false);
+  const [departmentFilter, setDepartmentFilter] = useState('all');
+  const [availabilityFilter, setAvailabilityFilter] = useState('all');
+  const [skillLevelFilter, setSkillLevelFilter] = useState('all');
   const { api } = useAuth();
   const navigate = useNavigate();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
@@ -195,6 +200,17 @@ export default function ResourcePlanning() {
   };
 
   const sourceResources = resources || [];
+
+  const filteredResources = sourceResources.filter(resource => {
+    const matchesSearch = resource.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         resource.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         resource.department.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesDepartment = departmentFilter === 'all' || resource.department === departmentFilter;
+    const matchesAvailability = availabilityFilter === 'all' || resource.availability === availabilityFilter;
+    const matchesSkillLevel = skillLevelFilter === 'all' || resource.skillLevel === skillLevelFilter;
+
+    return matchesSearch && matchesDepartment && matchesAvailability && matchesSkillLevel;
+  });
 
   const resourceStats = {
     totalResources: sourceResources.length,
@@ -395,12 +411,78 @@ export default function ResourcePlanning() {
                 <input
                   type="text"
                   placeholder="Search resources..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                   className="input pl-9"
                 />
               </div>
-              <button className="btn-outline">
-                <Filter className="h-4 w-4" />
-              </button>
+              <div className="relative">
+                <button
+                  onClick={() => setShowFilterDropdown(!showFilterDropdown)}
+                  className={`btn-outline ${showFilterDropdown ? 'bg-gray-100' : ''}`}
+                >
+                  <Filter className="h-4 w-4" />
+                </button>
+                {showFilterDropdown && (
+                  <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 p-4 z-10">
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Department</label>
+                        <select
+                          value={departmentFilter}
+                          onChange={(e) => setDepartmentFilter(e.target.value)}
+                          className="input w-full"
+                        >
+                          <option value="all">All Departments</option>
+                          <option value="Engineering">Engineering</option>
+                          <option value="Design">Design</option>
+                          <option value="Management">Management</option>
+                          <option value="Analytics">Analytics</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Availability</label>
+                        <select
+                          value={availabilityFilter}
+                          onChange={(e) => setAvailabilityFilter(e.target.value)}
+                          className="input w-full"
+                        >
+                          <option value="all">All Status</option>
+                          <option value="available">Available</option>
+                          <option value="busy">Busy</option>
+                          <option value="overloaded">Overloaded</option>
+                          <option value="unavailable">Unavailable</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Skill Level</label>
+                        <select
+                          value={skillLevelFilter}
+                          onChange={(e) => setSkillLevelFilter(e.target.value)}
+                          className="input w-full"
+                        >
+                          <option value="all">All Levels</option>
+                          <option value="junior">Junior</option>
+                          <option value="intermediate">Intermediate</option>
+                          <option value="senior">Senior</option>
+                          <option value="expert">Expert</option>
+                        </select>
+                      </div>
+                      <button
+                        onClick={() => {
+                          setDepartmentFilter('all');
+                          setAvailabilityFilter('all');
+                          setSkillLevelFilter('all');
+                          setSearchTerm('');
+                        }}
+                        className="btn-secondary w-full"
+                      >
+                        Clear Filters
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
@@ -418,7 +500,7 @@ export default function ResourcePlanning() {
                 </tr>
               </thead>
               <tbody>
-                {sourceResources.map((resource) => (
+                {filteredResources.map((resource) => (
                   <tr key={resource.id} className="border-b border-gray-100">
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-3">
