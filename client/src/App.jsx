@@ -11,6 +11,7 @@ import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Dashboard from './pages/dashboard/Dashboard';
 import Projects from './pages/projects/Projects';
+import ProjectDetails from './pages/projects/ProjectDetails';
 import KanbanBoard from './pages/tasks/KanbanBoard';
 import Team from './pages/team/Team';
 import Calendar from './pages/calendar/Calendar';
@@ -25,6 +26,7 @@ import Finance from './pages/finance/Finance';
 import Automations from './pages/automations/Automations';
 import Portfolio from './pages/portfolio/Portfolio';
 import ResourcePlanning from './pages/resource-planning/ResourcePlanning';
+import Help from './pages/help/Help';
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -55,6 +57,7 @@ function AppRoutes() {
       <Route element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/projects" element={<Projects />} />
+        <Route path="/projects/:id" element={<ProjectDetails />} />
         <Route path="/tasks" element={<KanbanBoard />} />
         <Route path="/team" element={<Team />} />
         <Route path="/calendar" element={<Calendar />} />
@@ -69,6 +72,7 @@ function AppRoutes() {
         <Route path="/automations" element={<Automations />} />
         <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/resource-planning" element={<ResourcePlanning />} />
+        <Route path="/help" element={<Help />} />
       </Route>
     </Routes>
   );
