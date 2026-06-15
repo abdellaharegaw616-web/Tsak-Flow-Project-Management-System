@@ -32,6 +32,9 @@ export default function Finance() {
   const [view, setView] = useState('overview'); // overview, transactions, budgets, invoices
   const [searchTerm, setSearchTerm] = useState('');
   const [invoiceSearch, setInvoiceSearch] = useState('');
+  const [showFilterDropdown, setShowFilterDropdown] = useState(false);
+  const [typeFilter, setTypeFilter] = useState('all');
+  const [categoryFilter, setCategoryFilter] = useState('all');
   const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
   const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState(null);
@@ -405,6 +408,16 @@ export default function Finance() {
   })) : budgets;
 
   const invoiceItems = invoices;
+
+  const filteredTransactions = transactions.filter(transaction => {
+    const matchesSearch = transaction.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         transaction.category.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesType = typeFilter === 'all' || transaction.type === typeFilter;
+    const matchesCategory = categoryFilter === 'all' || transaction.category === categoryFilter;
+
+    return matchesSearch && matchesType && matchesCategory;
+  });
+
   const filteredInvoices = invoiceItems.filter((invoice) => {
     const invoiceNumber = (invoice.number || invoice.id || '').toString().toLowerCase();
     const invoiceClient = typeof invoice.client === 'string'
@@ -658,9 +671,59 @@ export default function Finance() {
                   className="input pl-9"
                 />
               </div>
-              <button className="btn-outline">
-                <Filter className="h-4 w-4" />
-              </button>
+              <div className="relative">
+                <button
+                  onClick={() => setShowFilterDropdown(!showFilterDropdown)}
+                  className={`btn-outline ${showFilterDropdown ? 'bg-gray-100' : ''}`}
+                >
+                  <Filter className="h-4 w-4" />
+                </button>
+                {showFilterDropdown && (
+                  <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 p-4 z-10">
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
+                        <select
+                          value={typeFilter}
+                          onChange={(e) => setTypeFilter(e.target.value)}
+                          className="input w-full"
+                        >
+                          <option value="all">All Types</option>
+                          <option value="income">Income</option>
+                          <option value="expense">Expense</option>
+                          <option value="transfer">Transfer</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                        <select
+                          value={categoryFilter}
+                          onChange={(e) => setCategoryFilter(e.target.value)}
+                          className="input w-full"
+                        >
+                          <option value="all">All Categories</option>
+                          <option value="Salary">Salary</option>
+                          <option value="Software">Software</option>
+                          <option value="Marketing">Marketing</option>
+                          <option value="Operations">Operations</option>
+                          <option value="Consulting">Consulting</option>
+                          <option value="Other">Other</option>
+                        </select>
+                      </div>
+                      <button
+                        onClick={() => {
+                          setTypeFilter('all');
+                          setCategoryFilter('all');
+                          setSearchTerm('');
+                        }}
+                        className="btn-secondary w-full"
+                      >
+                        Clear Filters
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
@@ -677,7 +740,7 @@ export default function Finance() {
                 </tr>
               </thead>
               <tbody>
-                {transactions.map((transaction) => (
+                {filteredTransactions.map((transaction) => (
                   <tr key={transaction.id} className="border-b border-gray-100">
                     <td className="py-3 px-4 text-sm text-gray-900">{formatDate(transaction.date)}</td>
                     <td className="py-3 px-4">
