@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   HelpCircle, 
   Book, 
@@ -9,10 +9,25 @@ import {
   Search,
   FileText,
   Video,
-  Users
+  Users,
+  ChevronDown,
+  ChevronUp,
+  Send,
+  CheckCircle
 } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 export default function Help() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [expandedFaq, setExpandedFaq] = useState(null);
+  const [contactForm, setContactForm] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const faqItems = [
     {
       question: 'How do I create a new project?',
@@ -36,8 +51,77 @@ export default function Help() {
     }
   ];
 
+  const filteredFaq = faqItems.filter(item =>
+    item.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.answer.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const toggleFaq = (index) => {
+    setExpandedFaq(expandedFaq === index ? null : index);
+  };
+
+  const handleQuickHelp = (type) => {
+    switch(type) {
+      case 'getting-started':
+        toast.success('Opening Getting Started Guide...');
+        // Navigate to getting started or open modal
+        break;
+      case 'video-tutorials':
+        toast.success('Opening Video Tutorials...');
+        // Navigate to video tutorials or open modal
+        break;
+      case 'documentation':
+        toast.success('Opening Documentation...');
+        // Navigate to documentation or open modal
+        break;
+    }
+  };
+
+  const handleSupportChannel = (channel) => {
+    switch(channel) {
+      case 'live-chat':
+        toast.success('Starting live chat...');
+        // Open live chat widget
+        break;
+      case 'email':
+        window.location.href = 'mailto:support@projectmanagement.com';
+        break;
+      case 'phone':
+        window.location.href = 'tel:+1234567890';
+        break;
+    }
+  };
+
+  const handleContactSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    // Validate form
+    if (!contactForm.name.trim() || !contactForm.email.trim() || !contactForm.subject.trim() || !contactForm.message.trim()) {
+      toast.error('Please fill in all fields');
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(contactForm.email)) {
+      toast.error('Please enter a valid email address');
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Simulate API call
+    setTimeout(() => {
+      toast.success('Message sent successfully! We\'ll get back to you soon.');
+      setContactForm({ name: '', email: '', subject: '', message: '' });
+      setIsSubmitting(false);
+    }, 1500);
+  };
+
   const supportChannels = [
     {
+      key: 'live-chat',
       icon: MessageCircle,
       title: 'Live Chat',
       description: 'Chat with our support team in real-time',
@@ -45,6 +129,7 @@ export default function Help() {
       available: '24/7'
     },
     {
+      key: 'email',
       icon: Mail,
       title: 'Email Support',
       description: 'Send us an email and we\'ll respond within 24 hours',
@@ -52,6 +137,7 @@ export default function Help() {
       available: 'Business hours'
     },
     {
+      key: 'phone',
       icon: Phone,
       title: 'Phone Support',
       description: 'Call us for immediate assistance',
@@ -100,6 +186,8 @@ export default function Help() {
           <input
             type="text"
             placeholder="Search help articles..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="input pl-9 w-full sm:w-80"
           />
         </div>
@@ -107,7 +195,10 @@ export default function Help() {
 
       {/* Quick Help Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="card p-6 hover:shadow-lg transition-shadow cursor-pointer">
+        <div 
+          onClick={() => handleQuickHelp('getting-started')}
+          className="card p-6 hover:shadow-lg transition-shadow cursor-pointer"
+        >
           <div className="h-12 w-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
             <Book className="h-6 w-6 text-blue-600" />
           </div>
@@ -115,7 +206,10 @@ export default function Help() {
           <p className="text-sm text-gray-600">Learn the basics and get up and running quickly</p>
         </div>
 
-        <div className="card p-6 hover:shadow-lg transition-shadow cursor-pointer">
+        <div 
+          onClick={() => handleQuickHelp('video-tutorials')}
+          className="card p-6 hover:shadow-lg transition-shadow cursor-pointer"
+        >
           <div className="h-12 w-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
             <Video className="h-6 w-6 text-green-600" />
           </div>
@@ -123,7 +217,10 @@ export default function Help() {
           <p className="text-sm text-gray-600">Watch step-by-step guides for common tasks</p>
         </div>
 
-        <div className="card p-6 hover:shadow-lg transition-shadow cursor-pointer">
+        <div 
+          onClick={() => handleQuickHelp('documentation')}
+          className="card p-6 hover:shadow-lg transition-shadow cursor-pointer"
+        >
           <div className="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
             <FileText className="h-6 w-6 text-purple-600" />
           </div>
@@ -139,12 +236,28 @@ export default function Help() {
           <h2 className="text-lg font-semibold text-gray-900">Frequently Asked Questions</h2>
         </div>
         <div className="space-y-4">
-          {faqItems.map((item, index) => (
-            <div key={index} className="border-b border-gray-100 pb-4 last:border-0">
-              <h3 className="font-medium text-gray-900 mb-2">{item.question}</h3>
-              <p className="text-sm text-gray-600">{item.answer}</p>
-            </div>
-          ))}
+          {filteredFaq.length > 0 ? (
+            filteredFaq.map((item, index) => (
+              <div key={index} className="border-b border-gray-100 pb-4 last:border-0">
+                <button
+                  onClick={() => toggleFaq(index)}
+                  className="w-full flex items-center justify-between text-left"
+                >
+                  <h3 className="font-medium text-gray-900">{item.question}</h3>
+                  {expandedFaq === index ? (
+                    <ChevronUp className="h-4 w-4 text-gray-400" />
+                  ) : (
+                    <ChevronDown className="h-4 w-4 text-gray-400" />
+                  )}
+                </button>
+                {expandedFaq === index && (
+                  <p className="text-sm text-gray-600 mt-2">{item.answer}</p>
+                )}
+              </div>
+            ))
+          ) : (
+            <p className="text-sm text-gray-500 text-center py-4">No results found for "{searchTerm}"</p>
+          )}
         </div>
       </div>
 
@@ -156,7 +269,11 @@ export default function Help() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {supportChannels.map((channel, index) => (
-            <div key={index} className="border border-gray-200 rounded-lg p-6 hover:border-brand-300 transition-colors">
+            <div 
+              key={index} 
+              onClick={() => handleSupportChannel(channel.key)}
+              className="border border-gray-200 rounded-lg p-6 hover:border-brand-300 transition-colors cursor-pointer"
+            >
               <channel.icon className="h-8 w-8 text-brand-600 mb-4" />
               <h3 className="font-semibold text-gray-900 mb-2">{channel.title}</h3>
               <p className="text-sm text-gray-600 mb-4">{channel.description}</p>
@@ -201,27 +318,61 @@ export default function Help() {
           <Mail className="h-6 w-6 text-brand-600" />
           <h2 className="text-lg font-semibold text-gray-900">Send us a message</h2>
         </div>
-        <form className="space-y-4">
+        <form onSubmit={handleContactSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-              <input type="text" className="input" placeholder="Your name" />
+              <input 
+                type="text" 
+                value={contactForm.name}
+                onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
+                className="input" 
+                placeholder="Your name" 
+              />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-              <input type="email" className="input" placeholder="your@email.com" />
+              <input 
+                type="email" 
+                value={contactForm.email}
+                onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+                className="input" 
+                placeholder="your@email.com" 
+              />
             </div>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
-            <input type="text" className="input" placeholder="How can we help?" />
+            <input 
+              type="text" 
+              value={contactForm.subject}
+              onChange={(e) => setContactForm({ ...contactForm, subject: e.target.value })}
+              className="input" 
+              placeholder="How can we help?" 
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
-            <textarea rows={4} className="input resize-none" placeholder="Describe your issue or question..." />
+            <textarea 
+              rows={4} 
+              value={contactForm.message}
+              onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+              className="input resize-none" 
+              placeholder="Describe your issue or question..." 
+            />
           </div>
-          <button type="submit" className="btn-primary">
-            Send Message
+          <button type="submit" disabled={isSubmitting} className="btn-primary flex items-center gap-2">
+            {isSubmitting ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                Sending...
+              </>
+            ) : (
+              <>
+                <Send className="h-4 w-4" />
+                Send Message
+              </>
+            )}
           </button>
         </form>
       </div>
