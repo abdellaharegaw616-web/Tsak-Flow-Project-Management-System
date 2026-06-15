@@ -13,6 +13,9 @@ export const AuthProvider = ({ children }) => {
   // Get API URL from environment or use /api as fallback
   const apiBaseURL = import.meta.env.VITE_API_URL || '/api';
   
+  // Log API URL for debugging
+  console.log('API Base URL:', apiBaseURL);
+  
   const api = axios.create({
     baseURL: apiBaseURL,
     withCredentials: true,
