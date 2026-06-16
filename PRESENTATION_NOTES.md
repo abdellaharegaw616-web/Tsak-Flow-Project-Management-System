@@ -300,8 +300,181 @@ A: JWT tokens for authentication, environment variables for sensitive data, CORS
 ## Contact & Repository
 
 - **GitHub**: https://github.com/abdellaharegaw616-web/Project-Management-System
-- **Live Demo**: https://project-management-system-fohsasr9r.vercel.app
-- **Backend API**: https://project-management-system-hxs8.onrender.com/api
+- **Live Demo**: https://project-management-system-app-topaz.vercel.app/
+- **Backend API**: https://project-management-system-hxs8.onrender.com
+
+---
+
+# Project Management System – Internship Presentation Script
+
+## Slide 1: Introduction
+Good morning/afternoon everyone.
+
+My name is Abdellah Aregaw, and today I am excited to present my Project Management System.
+
+This project is a full-stack web application designed to help organizations manage projects, tasks, resources, finances, and team collaboration within a single platform.
+
+The goal of this system is to improve productivity, organization, communication, and decision-making by providing all essential project management tools in one place.
+
+---
+
+## Slide 2: Problem Statement
+Many organizations use separate tools for project tracking, task management, team collaboration, and financial monitoring.
+
+This often leads to data inconsistency, communication gaps, and reduced efficiency.
+
+To address these challenges, I developed a centralized Project Management System that integrates all these functionalities into one application.
+
+---
+
+## Slide 3: Technology Stack
+For the frontend, I used React.js, React Router, Tailwind CSS, and Vite.
+
+For the backend, I used Node.js and Express.js.
+
+MongoDB Atlas serves as the cloud database, while Mongoose is used for database modeling.
+
+For security, I implemented JWT authentication and Bcrypt password hashing.
+
+The application is deployed using Vercel for the frontend and Render for the backend.
+
+---
+
+## Slide 4: System Architecture
+The application follows a client-server architecture.
+
+The React frontend communicates with the Express backend through RESTful APIs.
+
+The backend processes requests, performs business logic, and interacts with MongoDB Atlas to store and retrieve data.
+
+This architecture ensures scalability, maintainability, and separation of concerns.
+
+---
+
+## Slide 5: Authentication and Authorization
+The system includes secure user registration and login functionality.
+
+JWT tokens are generated after successful authentication.
+
+Protected routes ensure that only authorized users can access sensitive resources.
+
+Role-based access control allows different levels of permissions for administrators, managers, and team members.
+
+---
+
+## Slide 6: Dashboard
+The dashboard provides a centralized overview of the entire system.
+
+Users can view project statistics, task progress, team performance metrics, and recent activities.
+
+This helps stakeholders quickly understand the current status of projects and make informed decisions.
+
+---
+
+## Slide 7: Project Management
+The project management module allows users to create, update, view, and delete projects.
+
+Each project includes status tracking, priority levels, budget monitoring, health indicators, and team assignments.
+
+This module helps ensure projects remain organized and aligned with business goals.
+
+---
+
+## Slide 8: Task Management
+Tasks can be created and assigned to specific team members.
+
+Users can track task status, priorities, deadlines, and project associations.
+
+This improves accountability and helps teams manage workloads effectively.
+
+---
+
+## Slide 9: Team and Resource Management
+The system supports team member management, role assignments, and performance tracking.
+
+The resource planning module enables organizations to allocate resources efficiently, monitor utilization, and manage availability.
+
+This helps prevent resource conflicts and improves operational efficiency.
+
+---
+
+## Slide 10: Time Tracking and Finance Management
+One of the important features of the system is real-time time tracking.
+
+Users can start and stop timers while working on tasks and maintain accurate records of work hours.
+
+The finance module allows users to manage budgets, track expenses and income, generate invoices, and analyze financial performance.
+
+---
+
+## Slide 11: Automations and Portfolio Management
+The automation module supports trigger-based workflows such as task assignments, notifications, and deadline reminders.
+
+The portfolio management module provides a high-level overview of strategic projects, ROI tracking, budget analysis, and project health monitoring.
+
+---
+
+## Slide 12: Help and Support
+The system includes a help center with FAQs, support channels, and a contact form.
+
+Users can quickly find answers to common questions or contact support when assistance is required.
+
+---
+
+## Slide 13: Challenges and Solutions
+One major challenge was implementing real-time time tracking.
+
+To solve this, I used JavaScript timers and backend data persistence to ensure accurate recording of work sessions.
+
+Another challenge was handling complex filtering across projects and tasks.
+
+I solved this by building reusable filter components and implementing efficient state management.
+
+Deployment configuration was another challenge, which was resolved through proper environment variable management and CORS configuration.
+
+---
+
+## Slide 14: Deployment
+The frontend application is deployed on Vercel.
+
+The backend API is deployed on Render.
+
+MongoDB Atlas is used as the cloud-hosted database.
+
+This deployment strategy provides scalability, reliability, and continuous integration through GitHub.
+
+---
+
+## Slide 15: Future Improvements
+Future enhancements include:
+
+- Real-time collaboration using WebSockets
+- File and document management
+- Mobile application development
+- AI-powered analytics and insights
+- Calendar integrations
+- Advanced reporting and PDF generation
+- Multi-language support
+- Enhanced security features
+
+---
+
+## Slide 16: Conclusion
+In conclusion, this Project Management System provides a comprehensive solution for managing projects, teams, resources, finances, and workflows.
+
+This project allowed me to strengthen my skills in:
+
+- Full-stack web development
+- React.js and Node.js
+- MongoDB database management
+- REST API development
+- Authentication and authorization
+- Cloud deployment
+- Problem solving and software architecture
+
+Thank you for your attention.
+
+I would be happy to answer any questions.
 
 ---
 

@@ -1,6 +1,11 @@
 # Project Management System
 
-A comprehensive full-stack project management application built with React, Express.js, and MongoDB. TaskFlow provides teams with tools to manage projects, tasks, resources, and collaborate effectively.
+A comprehensive full-stack project management application designed to help organizations manage projects, tasks, resources, finances, and team collaboration within a single integrated platform. Built with React, Node.js, Express.js, and MongoDB.
+
+**Problem Solved:** Many organizations use separate tools for project tracking, task management, team collaboration, and financial monitoring. This leads to data inconsistency, communication gaps, and reduced efficiency. Our system provides a centralized solution that integrates all these functionalities into one application, improving productivity, organization, communication, and decision-making.
+
+**Live Demo:** [Project Management System](https://project-management-system-app-topaz.vercel.app/)  
+**Backend API:** [API Server](https://project-management-system-hxs8.onrender.com)
 
 ## 🎯 Features
 
@@ -21,25 +26,31 @@ A comprehensive full-stack project management application built with React, Expr
 ## 🛠 Tech Stack
 
 ### Frontend
-- **React 19** - UI framework
-- **Vite** - Build tool and dev server
-- **Tailwind CSS** - Utility-first CSS framework
-- **React Router v7** - Client-side routing
-- **Axios** - HTTP client
-- **Lucide React** - Icon library
-- **React Hot Toast** - Notifications
-- **Framer Motion** - Animations
-- **Hello Pangea DnD** - Drag and drop functionality
+- **React 19.2.5** - UI framework
+- **Vite 8.0.10** - Build tool and dev server
+- **Tailwind CSS 3.4.19** - Utility-first CSS framework
+- **React Router 7.15.0** - Client-side routing
+- **Axios 1.16.0** - HTTP client for API calls
+- **Lucide React 1.14.0** - Icon library
+- **React Hot Toast 2.6.0** - Toast notifications
+- **Framer Motion 12.38.0** - Animations and transitions
+- **Hello Pangea DnD 18.0.1** - Drag and drop functionality
+- **PostCSS 8.5.14** - CSS processing
+- **Autoprefixer 10.5.0** - CSS vendor prefixing
+- **ESLint 10.2.1** - Code linting
 
 ### Backend
-- **Node.js** - Runtime
-- **Express.js** - Web framework
-- **MongoDB** - NoSQL database
-- **Mongoose** - ODM for MongoDB
-- **JWT** - Authentication
-- **bcryptjs** - Password hashing
-- **CORS** - Cross-origin resource sharing
-- **Multer** - File upload handling
+- **Node.js** - JavaScript runtime environment
+- **Express.js 5.2.1** - Web framework
+- **MongoDB Atlas** - Cloud NoSQL database
+- **Mongoose 9.6.1** - MongoDB ODM (Object Data Modeling)
+- **JsonWebToken 9.0.3** - JWT authentication
+- **bcryptjs 3.0.3** - Password hashing and encryption
+- **CORS 2.8.6** - Cross-origin resource sharing middleware
+- **Cookie-parser 1.4.7** - Cookie parsing middleware
+- **Multer 1.4.5** - File upload handling middleware
+- **Dotenv 17.4.2** - Environment variable management
+- **Nodemon 3.1.14** - Development server with auto-reload
 
 ## 📦 Installation
 
@@ -284,6 +295,24 @@ docker-compose up -d
 3. Filter by status and priority
 4. Switch between grid and list views
 
+## 🎓 Challenges & Solutions
+
+### Challenge 1: Real-time Time Tracking
+**Problem:** Implementing accurate time tracking that captures work sessions in real-time.  
+**Solution:** Implemented a timer using JavaScript `setInterval` that updates every second and persists session data to the backend when stopped, ensuring accurate records of work hours.
+
+### Challenge 2: Complex Filtering
+**Problem:** Handling multi-criteria filtering across projects, tasks, and resources.  
+**Solution:** Created reusable filter components with state management for search queries, dropdown filters, and multi-criteria filtering capabilities.
+
+### Challenge 3: Deployment Configuration
+**Problem:** Configuring secure deployment across multiple cloud services with proper CORS and environment variable management.  
+**Solution:** Set up environment variables for Vercel (frontend) and Render (backend) with proper CORS configuration for seamless cross-origin communication.
+
+### Challenge 4: Data Consistency
+**Problem:** Ensuring data integrity across distributed operations.  
+**Solution:** Used MongoDB error handling and input validation to maintain data consistency throughout the application.
+
 ## 🤝 Contributing
 
 1. Fork the repository
@@ -315,4 +344,4 @@ For issues and questions, please open an issue on [GitHub Issues](https://github
 
 ---
 
-**Last Updated:** June 6, 2026
+**Last Updated:** June 15, 2026
