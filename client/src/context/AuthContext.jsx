@@ -34,6 +34,18 @@ export const AuthProvider = ({ children }) => {
     }
   });
 
+  // Add interceptor for 401 errors
+  api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error.response?.status === 401) {
+        setUser(null);
+        window.location.href = '/login';
+      }
+      return Promise.reject(error);
+    }
+  );
+
   useEffect(() => {
     checkAuth();
   }, []);
