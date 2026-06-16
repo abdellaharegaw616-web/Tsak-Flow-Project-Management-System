@@ -18,7 +18,8 @@ const corsOptions = {
     const allowedOrigins = [
       process.env.CLIENT_URL || 'http://localhost:5173',
       'http://localhost:5173',
-      'http://localhost:3000'
+      'http://localhost:3000',
+      'https://tsak-flow-project-management-system.vercel.app'
     ];
     
     if (!origin || allowedOrigins.includes(origin)) {
