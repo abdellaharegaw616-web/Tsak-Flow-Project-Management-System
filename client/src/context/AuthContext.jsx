@@ -10,10 +10,20 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Get API URL from environment or use /api as fallback
-  const apiBaseURL = import.meta.env.VITE_API_URL || '/api';
+  // Determine API URL based on environment
+  let apiBaseURL;
   
-  // Log API URL for debugging
+  if (import.meta.env.VITE_API_URL) {
+    // Use explicit API URL if set
+    apiBaseURL = import.meta.env.VITE_API_URL;
+  } else if (window.location.hostname === 'localhost') {
+    // Local development with Vite proxy
+    apiBaseURL = '/api';
+  } else {
+    // Production - use full URL
+    apiBaseURL = `${window.location.origin}/api`;
+  }
+  
   console.log('API Base URL:', apiBaseURL);
   
   const api = axios.create({
